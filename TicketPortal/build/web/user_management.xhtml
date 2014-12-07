@@ -1,0 +1,157 @@
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:component>
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>User Management</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+
+
+                <p:layoutUnit position="north" size="155"   collapsible="true" >
+                    <h1>Prairie Tickets Sellers Portal:</h1>
+                        <h3>Administration Section: User Management</h3>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                    <div>
+                        <h6>
+                            <center>                        
+                                <h:messages showDetail="true"></h:messages>
+                            </center>
+                        </h6>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200"  collapsible="true">
+                    <p:menu style="width: 175;">
+                        <p:submenu label="Pages">
+                            <p:menuitem value="Ticket Management" url="ticket_management.xhtml" />
+                            <p:menuitem value="Ticket Entry" url="TicketEntry.xhtml" />  
+                            <p:menuitem value="User Management" url="user_management.xhtml" />
+                            <p:menuitem value="User Entry" url="UserEntry.xhtml" />
+                            <p:menuitem value="Home" url="Dashboard.xhtml" />
+                            <p:menuitem value="Paid Tickets" url="Paid_Tickets.xhtml" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit id="main" position="center" >
+
+                    <h:form>
+
+                        <center>
+
+                            <p:panel header="User Search Form" style="width: 1250;" >
+
+                                <h:panelGrid columns="3" cellpadding="2">
+                                    <h:outputLabel for="#{userManagement.searchUser}" value="UserName"/>
+                                    <h:inputText value="#{userManagement.searchUser}" label="UserName"/>
+                                    <h:commandButton type="submit" value="Search" action="#{userManagement.searchUser()}"/>
+                                    <h:outputLabel value="Delete Selected User: "/><br/>
+                                    <h:commandButton type="button" value="Delete"  onclick="PF('deletedlg').show()"/>
+                                    <h:outputLabel for="#{userManagement.amountDue}" value="New Amount Due: "/>
+                                    <h:inputText value="#{userManagement.amountDue}" label="AmountDue"/><br/>
+                                    <h:outputLabel for="#{userManagement.paymentStatus}" value="New Payment Status"/>
+                                    <h:inputText value="#{userManagement.paymentStatus}" label="PaymentStatus"/>      <br/>                              
+                                    <h:outputLabel value="Update Selected User: "/><br/>
+                                    <h:commandButton type="submit" value="Update"  action="#{userManagement.updateSelectedUser()}"  />                                    
+                                </h:panelGrid>
+
+                            </p:panel>
+
+                            <p:panel id="panel" style="width: 1250;">
+
+                                <p:dataTable var="user" value="#{userManagement.searchUsersResults}" 
+                                             selection="#{userManagement.selectedUser}" selectionMode="single"
+                                             paginator="true" rows="8"  rowKey="#{user.id}"  id="UserListing"  widgetVar="userTable" >
+                                    <p:ajax event="rowSelect" listener="#{userManagement.onUserSelect}"   />
+                                    <p:column sortBy="#{user.id}" filterBy="#{user.id}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="Id"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.id}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Username"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.username}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="First Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.firstName}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Last Name"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.lastName}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Password"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.password}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Amount Due"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.amountDue}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Payment Status"/>
+                                        </f:facet>
+                                        <h:outputText value="#{user.paymentStatus}"/>
+                                    </p:column>
+                                </p:dataTable>
+
+                                <p:dialog id="delete"  widgetVar="deletedlg" >
+                                    <f:view>
+                                        <h:form>
+                                            <h1><h:outputText value="Selected User Deleted"/></h1>
+
+                                            <p:commandButton id="deleted"  type="submit" value="OK" onclick="PF('userTable').update()"
+                                                             action="#{userManagement.deleteSelectedUser()}"/>  
+                                        </h:form>
+                                    </f:view>
+                                </p:dialog>
+                                <p:dialog id="update"  widgetVar="updatedlg" >
+                                    <f:view>
+                                        <h:form>
+                                            <h1><h:outputText value="Update Selected User"/></h1>
+                                            <p:panelGrid columns="2">
+                                                <p:outputLabel value="Amount Due:" for="amountDue" />
+                                                <p:inputText id="amountDue" value="#{userManagement.amountDue}" title="AmountDue" />
+                                                <p:outputLabel value="PaymentStatus:" for="paymentStatus" />
+                                                <p:inputText id="paymentStatus" value="#{userManagement.paymentStatus}" title="PaymentStatus" />
+                                            </p:panelGrid>
+                                            <p:commandButton id="updated"  type="submit" value="OK" oncomplete="#{userManagement.updateSelectedUser()}"
+                                                             action="submit" />   
+                                        </h:form>
+                                                                              
+                                    </f:view>
+                                </p:dialog>
+                            </p:panel>
+                        </center>
+                    </h:form>   
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </ui:component>
+</html>
+

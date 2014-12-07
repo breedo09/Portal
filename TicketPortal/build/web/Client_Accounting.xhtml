@@ -1,0 +1,126 @@
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+    <h:head>
+
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <title>Accounting Information</title>
+
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="130" resizable="true" closable="true" collapsible="true">
+                <h1>Welcome #{clientTicketBean.username}, to the Prairie Tickets Online Portal</h1>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="200" header="Menu" collapsible="true">
+                <p:menu>
+                    <p:submenu label="Pages">
+                        <p:menuitem value="Active Listings" url="Client_Dashboard.xhtml"  />
+                        <p:menuitem value="Accounting Information" url="Client_Accounting.xhtml" />   
+                        <p:menuitem value="Ticket Entry" url="Client_ticketEntry.xhtml" />   
+                    </p:submenu>
+                </p:menu>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <center>
+
+                    <h:form>
+                        <p:panel id="AccountingInfo" header="Accounting Information" style="width: 1250;">
+
+
+
+                            <h:form>
+                                <h1><h:outputText value="Tickets Sold"/></h1>
+                                <p:panelGrid columns="2">
+                                    <h:form>
+                                        <p:dataTable value="#{clientTicketBean.ticketsSold}" var="item">
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Id"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.id}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="OrderNumber"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.orderNumber}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="EventName"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventName}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Section"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.section}"/>
+                                            </p:column>
+
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="EventRow"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventRow}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Seats"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.seats}"/>
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Quantity"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.quantity}"/>
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Sold For"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.currentPrice}"/>
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Amount Paid to Seller"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.cost}"/>
+                                            </p:column>
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Paid"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.paid}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </h:form>
+
+                                </p:panelGrid>
+                            </h:form>
+                        </p:panel>
+
+
+                    </h:form>
+                </center>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

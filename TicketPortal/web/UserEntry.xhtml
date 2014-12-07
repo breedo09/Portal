@@ -1,0 +1,129 @@
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html">
+        <ui:composition>
+            <h:head>
+
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>User Entry</title>
+
+            </h:head>
+            <h:body>
+
+            <p:layout fullPage="true">
+
+
+
+                <p:layoutUnit position="north" size="155"   collapsible="true" >
+                    <h1>Prairie Tickets Sellers Portal:</h1>
+                        <h3>Administration Section: User Entry</h3>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                    <div>
+                        <h6>
+                            <center>                        
+                                <h:messages showDetail="true"></h:messages>
+                            </center>
+                        </h6>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200"  collapsible="true">
+                    <p:menu style="width: 175;">
+                        <p:submenu label="Pages">
+                            <p:menuitem value="Ticket Management" url="ticket_management.xhtml" />
+                            <p:menuitem value="Ticket Entry" url="TicketEntry.xhtml" />  
+                            <p:menuitem value="User Management" url="user_management.xhtml" />
+                            <p:menuitem value="User Entry" url="UserEntry.xhtml" />
+                            <p:menuitem value="Home" url="Dashboard.xhtml" />
+                            <p:menuitem value="Paid Tickets" url="Paid_Tickets.xhtml" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        <center>
+
+
+                            <p:panel id="SearchPanel" header="User Entry Form" style="width: 1250;">
+
+                                <h:panelGrid columns="2" cellpadding="2">
+                                    <h:outputLabel value="Click here to add users to the create list"/>
+                                    <h:commandButton id="showdlg" type="button" value="Add User" onclick="PF('entrydlg').show()"/>
+                                    <h:outputLabel value="Click here after finishing the list"/>
+                                    <h:commandButton id="createUsers" type="submit" value="Create Users" action="#{userEntry.finishCreate()}"/>
+                                </h:panelGrid>
+
+                            </p:panel>
+
+                            <p:panel style="width: 1250;">
+                                <f:view>
+                                    <h:form>
+                                        <p:dataTable var="User" value="#{userEntry.createList}" 
+                                                     paginator="true" rows="5" style="width: 1150"
+                                                     rowKey="#{User.id}" id="CreateUserList" paginatorAlwaysVisible="false"  >
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Username"/>
+                                                </f:facet>
+                                                <h:outputText value="#{User.username}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="FirstName"/>
+                                                </f:facet>
+                                                <h:outputText value="#{User.firstName}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="LastName"/>
+                                                </f:facet>
+                                                <h:outputText value="#{User.lastName}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Password"/>
+                                                </f:facet>
+                                                <h:outputText value="#{User.password}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </f:view>
+                            </p:panel>
+
+
+                            <h:form>
+                                <p:dialog id="userEntry"  header="User Entry Form"  widgetVar="entrydlg" onHide="UserEntry" dynamic="true">
+                                    <f:view>
+                                        <h:form>
+                                            <h:commandButton id="createUser"  type="submit" value="Add User"  
+                                                              action="#{userEntry.addToCreateList()}">                                     
+                                            </h:commandButton>
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel value="Username:" for="username" />
+                                                <h:inputText id="username" value="#{userEntry.creatableUser.username}" title="Username" />
+                                                <h:outputLabel value="FirstName:" for="firstName" />
+                                                <h:inputText id="firstName" value="#{userEntry.creatableUser.firstName}" title="firstName" />
+                                                <h:outputLabel value="LastName:" for="lastName" />
+                                                <h:inputText id="lastName" value="#{userEntry.creatableUser.lastName}" title="lastName" />
+                                                <h:outputLabel value="Password:" for="password" />
+                                                <h:inputText id="password" value="#{userEntry.creatableUser.password}" title="Password" />
+                                            </h:panelGrid>
+                                        </h:form>
+                                    </f:view>
+                                </p:dialog>
+                            </h:form>
+
+                        </center>
+                    </p:layoutUnit>
+                </p:layout>
+            </h:body>
+        </ui:composition>
+    </f:view>
+</html>

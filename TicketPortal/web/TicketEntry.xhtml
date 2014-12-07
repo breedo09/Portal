@@ -1,0 +1,192 @@
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html">
+        <h:head>
+
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>Ticket Entry</title>
+
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="155"   collapsible="true" >
+                    <h1>Prairie Tickets Sellers Portal:</h1>
+                    <h3>Administration Section: Ticket Entry</h3>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                    <div>
+                        <h6>
+                            <center>                        
+                                <h:messages showDetail="true"></h:messages>
+                            </center>
+                        </h6>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200"  collapsible="true">
+                    <p:menu style="width: 175;">
+                        <p:submenu label="Pages">
+                            <p:menuitem value="Ticket Management" url="ticket_management.xhtml" />
+                            <p:menuitem value="Ticket Entry" url="TicketEntry.xhtml" />  
+                            <p:menuitem value="User Management" url="user_management.xhtml" />
+                            <p:menuitem value="User Entry" url="UserEntry.xhtml" />
+                            <p:menuitem value="Home" url="Dashboard.xhtml" />
+                            <p:menuitem value="Paid Tickets" url="Paid_Tickets.xhtml" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <center>
+
+                        <h:form>
+                            <p:panel id="SearchPanel" header="Ticket Entry Form" style="width: 1250;">
+
+                                <h:panelGrid columns="2" cellpadding="2">
+                                    <h:outputLabel value="Click here to add tickets to the create list"/>
+                                    <h:commandButton id="showdlg" type="button" value="Add Ticket" onclick="PF('entrydlg').show()"/>
+                                    <h:outputLabel value="Username: "/>
+                                    <p:selectOneMenu id="userOptions" value="#{ticketEntry.user}" style="width:150px">
+                                        <f:selectItem itemLabel="Select User" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{ticketEntry.userList}" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel value="Click here after finishing the list"/>
+                                    <h:commandButton id="createticks" type="submit" value="Create Tickets" action="#{ticketEntry.finishCreate()}" />
+                                </h:panelGrid>
+
+                            </p:panel>
+
+                            <p:panel style="width: 1250;">
+                                <p:dataTable var="Ticket" value="#{ticketEntry.createTicketsList}" 
+                                             paginator="true" rows="10" 
+                                             rowKey="#{Ticket.id}" id="CreateTicketListing" paginatorAlwaysVisible="false"  >
+
+                                    <p:column sortBy="#{Ticket.id}" filterBy="#{Ticket.id}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="Id" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.id}" />
+                                    </p:column>
+
+                                    <p:column sortBy="#{Ticket.eventName}" filterBy="#{Ticket.eventName}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Event Name" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.eventName}" />
+                                    </p:column>
+
+                                    <p:column sortBy="#{Ticket.eventDate}" filterBy="#{Ticket.eventDate}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Event Date" />                            
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.eventDate}" >
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Event Section" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.section}" >
+                                        </h:outputText>
+                                    </p:column>
+
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Event Row" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.eventRow}" >
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="seats" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.seats}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="quantity" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.quantity}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="price" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.currentPrice}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Splits" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.splits}" />
+                                    </p:column>   
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="PriceChanged" />
+                                        </f:facet>
+                                        <h:outputText value="#{Ticket.priceChanged}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+
+                            <p:dialog id="entry"  header="Ticket Entry Form"  widgetVar="entrydlg" onHide="">
+                                <f:view>
+                                    <h:form>
+                                        <h1><h:outputText value="Create"/></h1>
+                                        <p:commandButton id="createTick"  type="submit" value="Add Ticket" 
+                                                         ajax="false" action="#{ticketEntry.addToCreateList()}">
+                                        </p:commandButton>                                        
+                                        <h:panelGrid columns="2">
+                                            <h:outputLabel value="Event Name:" for="eventName" />
+                                            <h:inputText  id="eventName"  value="#{ticketEntry.createableTicket.eventName}" title="EventName" />
+                                            <h:outputLabel value="Event Date:" for="eventDate" />
+                                            <h:inputText id="eventDate" value="#{ticketEntry.createableTicket.eventDate}" title="EventDate" >
+                                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                            </h:inputText>
+                                            <h:outputLabel value="Section:" for="section" />
+                                            <h:inputText id="eventSection" value="#{ticketEntry.createableTicket.section}" title="Section" />
+                                            <h:outputLabel value="Event Row:" for="eventRow" />
+                                            <h:inputText id="eventRow" value="#{ticketEntry.createableTicket.eventRow}" title="EventRow" />
+                                            <h:outputLabel value="Seats:" for="seats" />
+                                            <h:inputText  id="seats" value="#{ticketEntry.createableTicket.seats}" title="Seats" />
+                                            <h:outputLabel value="Quantity:" for="quantity" />
+                                            <h:inputText id="quantity" value="#{ticketEntry.createableTicket.quantity}" title="Quantity" />
+                                            <h:outputLabel value="Splits:" for="splits" />
+                                            <h:inputText id="splits" value="#{ticketEntry.createableTicket.splits}" title="Splits" />
+                                            <h:outputLabel value="Price:" for="price" />
+                                            <h:inputText id="price" value="#{ticketEntry.createableTicket.currentPrice}" title="Price"  />
+
+                                        </h:panelGrid>
+
+                                    </h:form>
+                                </f:view>
+                            </p:dialog>
+
+
+                        </h:form>
+
+                    </center>
+
+                </p:layoutUnit>
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</html>

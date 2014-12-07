@@ -1,0 +1,23 @@
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <center>
+    <p:panel header="Login Form" style="width: 350;">
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="2">
+                <h:outputLabel for="#{clientTicketBean.username}" value="UserName"/>
+                <h:inputText value="#{clientTicketBean.username}" label="UserName"></h:inputText>
+                <h:outputLabel for="#{clientTicketBean.password}" value="Password"/>
+                <h:inputSecret value="#{clientTicketBean.password}"></h:inputSecret>
+                <h:commandButton type="submit" value="Login" action="#{clientTicketBean.login}"></h:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+    <div><h:messages ></h:messages></div>
+    </center>
+</h:body>
+</html>
